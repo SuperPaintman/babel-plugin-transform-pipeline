@@ -1,0 +1,36 @@
+language: node_js
+node_js: "6"
+
+cache:
+  yarn: true
+
+env:
+  global:
+    - "NODE_ENV=test"
+    - "YARN_VERSION=0.18.1"
+
+before_install:
+  # Instal deps
+  - "npm install -g yarn@${YARN_VERSION}"
+  - "yarn global add coveralls --no-progress"
+  - "yarn global add codeclimate-test-reporter --no-progress"
+  - "(NODE_ENV=development && yarn install --ignore-scripts --no-progress)"
+  - "yarn list"
+
+script:
+  # Lint
+  - "npm run lint"
+  # Build
+  - "npm run build"
+  # Test
+  - "npm run test-ci"
+
+after_script:
+  # coveralls
+  - "cat ./coverage/lcov.info | coveralls"
+  # codeclimate
+  - "cat ./coverage/lcov.info | codeclimate-test-reporter"
+
+branches:
+  except:
+    - gh-pages

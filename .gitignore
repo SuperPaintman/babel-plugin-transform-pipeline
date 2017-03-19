@@ -1,0 +1,11 @@
+# Git
+.git/
+
+# NPM
+node_modules/
+
+# Lib
+lib/
+
+# Coverage
+coverage/
